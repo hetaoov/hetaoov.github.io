@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JS,React,umi.js,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="学习 UmiJS 也有一段时间了，终于了解了大概的用法，这里做个记录，也给刚入门的朋友提供一点参考。 知识图谱：快速上手 UmiJS 实操必要知识   这里我们需要一定的 typescript 和 ES6 的知识 快速上手下载umijs参考官网的说明 环境准备 这里我们假设您本地已经安装好了nodejs 等环境。我们已 AntD Admin 为演示用例 1.下载项目代码：12git clone h">
+<meta name="keywords" content="JS,React,umi.js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="快速上手umi.js">
+<meta property="og:url" content="https://hetaoov.github.io/2020/02/12/快速上手umi-js/index.html">
+<meta property="og:site_name" content="猛子的博客">
+<meta property="og:description" content="学习 UmiJS 也有一段时间了，终于了解了大概的用法，这里做个记录，也给刚入门的朋友提供一点参考。 知识图谱：快速上手 UmiJS 实操必要知识   这里我们需要一定的 typescript 和 ES6 的知识 快速上手下载umijs参考官网的说明 环境准备 这里我们假设您本地已经安装好了nodejs 等环境。我们已 AntD Admin 为演示用例 1.下载项目代码：12git clone h">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s2.ax1x.com/2020/02/12/17Xq56.png">
+<meta property="og:image" content="https://s2.ax1x.com/2020/02/12/1H9pqg.png">
+<meta property="og:image" content="https://s2.ax1x.com/2020/02/12/1H9Gz6.png">
+<meta property="og:updated_time" content="2020-03-19T02:08:21.338Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="快速上手umi.js">
+<meta name="twitter:description" content="学习 UmiJS 也有一段时间了，终于了解了大概的用法，这里做个记录，也给刚入门的朋友提供一点参考。 知识图谱：快速上手 UmiJS 实操必要知识   这里我们需要一定的 typescript 和 ES6 的知识 快速上手下载umijs参考官网的说明 环境准备 这里我们假设您本地已经安装好了nodejs 等环境。我们已 AntD Admin 为演示用例 1.下载项目代码：12git clone h">
+<meta name="twitter:image" content="https://s2.ax1x.com/2020/02/12/17Xq56.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://hetaoov.github.io/2020/02/12/快速上手umi-js/">
+
+
+
+
+
+  <title>快速上手umi.js | 猛子的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">猛子的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hetaoov.github.io/2020/02/12/快速上手umi-js/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张大猛子呦">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/myface.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="猛子的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">快速上手umi.js</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-12T13:11:23+08:00">
+                2020-02-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JS/" itemprop="url" rel="index">
+                    <span itemprop="name">JS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>学习 UmiJS 也有一段时间了，终于了解了大概的用法，这里做个记录，也给刚入门的朋友提供一点参考。</p>
+<h2 id="知识图谱："><a href="#知识图谱：" class="headerlink" title="知识图谱："></a>知识图谱：<img src="https://s2.ax1x.com/2020/02/12/17Xq56.png" alt="知识图谱"></h2><h2 id="快速上手-UmiJS-实操"><a href="#快速上手-UmiJS-实操" class="headerlink" title="快速上手 UmiJS 实操"></a>快速上手 UmiJS 实操</h2><h3 id="必要知识"><a href="#必要知识" class="headerlink" title="必要知识"></a>必要知识</h3><p>   这里我们需要一定的 typescript 和 ES6 的知识</p>
+<h3 id="快速上手"><a href="#快速上手" class="headerlink" title="快速上手"></a>快速上手</h3><h4 id="下载umijs"><a href="#下载umijs" class="headerlink" title="下载umijs"></a>下载umijs</h4><p>参考官网的说明 <a href="https://umijs.org/zh/guide/getting-started.html#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87" target="_blank" rel="noopener">环境准备</a></p>
+<p>这里我们假设您本地已经安装好了nodejs 等环境。<br>我们已 AntD Admin 为演示用例</p>
+<p>1.下载项目代码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/zuiidea/antd-admin.git my-project</span><br><span class="line"><span class="built_in">cd</span> my-project</span><br></pre></td></tr></table></figure></p>
+<p>2.进入目录安装依赖：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn install</span><br></pre></td></tr></table></figure></p>
+<p>或者<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure></p>
+<p>3.启动本地服务器<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run start</span><br></pre></td></tr></table></figure></p>
+<p>4.启动完成后打开浏览器访问 <a href="http://localhost:7000" target="_blank" rel="noopener">http://localhost:7000</a>，如果需要更改启动端口，可在 .env 文件中配置。</p>
+<p>启动完成后可以看到如下界面：<br><img src="https://s2.ax1x.com/2020/02/12/1H9pqg.png" alt="1H9pqg.png"><br>输入账号密码： admin   admin<br>就可以看到如下界面：<br><img src="https://s2.ax1x.com/2020/02/12/1H9Gz6.png" alt="1H9Gz6.png"></p>
+<h4 id="目录说明"><a href="#目录说明" class="headerlink" title="目录说明"></a>目录说明</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">├── dist/               # 默认build输出目录</span><br><span class="line">├── mock/               # Mock文件目录</span><br><span class="line">├── public/             # 静态资源文件目录</span><br><span class="line">├── src/                # 源码目录</span><br><span class="line">│ ├── components/       # 组件目录</span><br><span class="line">│ ├── e2e/              # e2e目录</span><br><span class="line">│ ├── layouts/          # 布局目录</span><br><span class="line">│ ├── locales/          # 国际化文件目录</span><br><span class="line">│ ├── models/           # 数据模型目录</span><br><span class="line">│ ├── pages/            # 页面组件目录</span><br><span class="line">│ ├── services/         # 数据接口目录</span><br><span class="line">│ │ ├── api.js          # 接口配置</span><br><span class="line">│ │ └── index.js        # 接口输出</span><br><span class="line">│ ├── themes/           # 项目样式目录</span><br><span class="line">│ │ ├── default.less    # 样式变量</span><br><span class="line">│ │ ├── index.less      # 全局样式</span><br><span class="line">│ │ ├── mixin.less      # 样式函数</span><br><span class="line">│ │ └── vars.less       # 样式变量及函数</span><br><span class="line">│ ├── utils/            # 工具函数目录</span><br><span class="line">│ │ ├── config.js       # 项目配置</span><br><span class="line">│ │ ├── constant.js     # 静态常量</span><br><span class="line">│ │ ├── index.js        # 工具函数</span><br><span class="line">│ │ ├── request.js      # 异步请求函数(axios)</span><br><span class="line">│ │ └── theme.js        # 项目需要在js中使用到样式变量</span><br><span class="line">├── .editorconfig       # 编辑器配置</span><br><span class="line">├── .env                # 环境变量</span><br><span class="line">├── .eslintrc           # ESlint配置</span><br><span class="line">├── .gitignore          # Git忽略文件配置</span><br><span class="line">├── .prettierignore     # Prettier忽略文件配置</span><br><span class="line">├── .prettierrc         # Prettier配置</span><br><span class="line">├── .stylelintrc.json   # Stylelint配置</span><br><span class="line">├── .travis.yml         # Travis配置</span><br><span class="line">└── .umirc.js           # Umi配置</span><br><span class="line">└──  package.json       # 项目信息</span><br></pre></td></tr></table></figure>
+<p>我们主要的目录是在 ~/src/pages 这个目录中。</p>
+<h4 id="写一个商品列表页面"><a href="#写一个商品列表页面" class="headerlink" title="写一个商品列表页面"></a>写一个商品列表页面</h4><ul>
+<li>1  </li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JS/" rel="tag"># JS</a>
+          
+            <a href="/tags/React/" rel="tag"># React</a>
+          
+            <a href="/tags/umi-js/" rel="tag"># umi.js</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/05/修改lamp-sh使之可以支持多版本php/" rel="next" title="修改lamp.sh使之可以支持多版本PHP">
+                <i class="fa fa-chevron-left"></i> 修改lamp.sh使之可以支持多版本PHP
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/19/php依赖注入容器/" rel="prev" title="php依赖注入容器">
+                php依赖注入容器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/myface.jpg" alt="张大猛子呦">
+            
+              <p class="site-author-name" itemprop="name">张大猛子呦</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/hetaoov" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:hetaoov@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/u/3923647634" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-globe"></i>Weibo</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#知识图谱："><span class="nav-number">1.</span> <span class="nav-text">知识图谱：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速上手-UmiJS-实操"><span class="nav-number">2.</span> <span class="nav-text">快速上手 UmiJS 实操</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#必要知识"><span class="nav-number">2.1.</span> <span class="nav-text">必要知识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速上手"><span class="nav-number">2.2.</span> <span class="nav-text">快速上手</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#下载umijs"><span class="nav-number">2.2.1.</span> <span class="nav-text">下载umijs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#目录说明"><span class="nav-number">2.2.2.</span> <span class="nav-text">目录说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#写一个商品列表页面"><span class="nav-number">2.2.3.</span> <span class="nav-text">写一个商品列表页面</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张大猛子呦</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

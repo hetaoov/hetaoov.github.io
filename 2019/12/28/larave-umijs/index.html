@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="PHP,JS,React,umi.js,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Laravel:The PHP Framework for Web Artisans  UmiJS：可插拔的企业级 react 应用框架。 　　身为一个PHP的小学生，在一次学习Laravel-admin的过程中发现了一款非常优雅的插件(B2C商城扩展)中将两者完美的结合在一起。所以，我把他下载了下来进行学习。就有了这篇踩坑之旅 安装antd-admin　　虽然说的是Umi.js，但是如果我们">
+<meta name="keywords" content="PHP,JS,React,umi.js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="laravel整合umijs踩坑之旅">
+<meta property="og:url" content="https://hetaoov.github.io/2019/12/28/larave-umijs/index.html">
+<meta property="og:site_name" content="猛子的博客">
+<meta property="og:description" content="Laravel:The PHP Framework for Web Artisans  UmiJS：可插拔的企业级 react 应用框架。 　　身为一个PHP的小学生，在一次学习Laravel-admin的过程中发现了一款非常优雅的插件(B2C商城扩展)中将两者完美的结合在一起。所以，我把他下载了下来进行学习。就有了这篇踩坑之旅 安装antd-admin　　虽然说的是Umi.js，但是如果我们">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s2.ax1x.com/2019/12/29/lncqpj.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/12/29/lK8VTx.jpg">
+<meta property="og:updated_time" content="2020-03-19T02:08:21.337Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="laravel整合umijs踩坑之旅">
+<meta name="twitter:description" content="Laravel:The PHP Framework for Web Artisans  UmiJS：可插拔的企业级 react 应用框架。 　　身为一个PHP的小学生，在一次学习Laravel-admin的过程中发现了一款非常优雅的插件(B2C商城扩展)中将两者完美的结合在一起。所以，我把他下载了下来进行学习。就有了这篇踩坑之旅 安装antd-admin　　虽然说的是Umi.js，但是如果我们">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/12/29/lncqpj.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://hetaoov.github.io/2019/12/28/larave-umijs/">
+
+
+
+
+
+  <title>laravel整合umijs踩坑之旅 | 猛子的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">猛子的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hetaoov.github.io/2019/12/28/larave-umijs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张大猛子呦">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/myface.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="猛子的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">laravel整合umijs踩坑之旅</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-28T18:00:48+08:00">
+                2019-12-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PHP/" itemprop="url" rel="index">
+                    <span itemprop="name">PHP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>  <a href="https://laravel.com" target="_blank" rel="noopener">Laravel</a>:The PHP Framework for Web Artisans<br>  <a href="https://umijs.org/zh/" target="_blank" rel="noopener">UmiJS</a>：可插拔的企业级 react 应用框架。</p>
+<p>　　身为一个PHP的小学生，在一次学习Laravel-admin的过程中发现了一款非常优雅的插件(<a href="https://github.com/SmallRuralDog/laravel-b2c-store" target="_blank" rel="noopener">B2C商城扩展</a>)中将两者完美的结合在一起。所以，我把他下载了下来进行学习。就有了这篇踩坑之旅</p>
+<h2 id="安装antd-admin"><a href="#安装antd-admin" class="headerlink" title="安装antd-admin"></a>安装<a href="https://github.com/zuiidea/antd-admin" target="_blank" rel="noopener">antd-admin</a></h2><p>　　虽然说的是Umi.js，但是如果我们去官网去看，就会发现跟我们插件所使用的根本不一样。<br>　　我们真正使用的是[antd-admin] 这个umi框架。</p>
+<p>   安装流程：<br>   <img src="https://s2.ax1x.com/2019/12/29/lncqpj.jpg" alt="install-umi"></p>
+<h2 id="在Laravel中配置umi"><a href="#在Laravel中配置umi" class="headerlink" title="在Laravel中配置umi"></a>在Laravel中配置umi</h2><h4 id="在Laravel-中新建一个控制器"><a href="#在Laravel-中新建一个控制器" class="headerlink" title="在Laravel 中新建一个控制器"></a>在Laravel 中新建一个控制器</h4>  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="keyword">namespace</span> <span class="title">App</span>\<span class="title">Admin</span>\<span class="title">Controllers</span>;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">use</span> <span class="title">App</span>\<span class="title">Http</span>\<span class="title">Controllers</span>\<span class="title">Controller</span>;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">ViewController</span> <span class="keyword">extends</span> <span class="title">Controller</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">  </span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">umi</span><span class="params">()</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> view(<span class="string">'view/umi'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="视图模板文件中写入以下代码"><a href="#视图模板文件中写入以下代码" class="headerlink" title="视图模板文件中写入以下代码"></a>视图模板文件中写入以下代码</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Helper</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">myUmi</span><span class="params">($path)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">//如果没有配置umi 则走本地的umi</span></span><br><span class="line">        <span class="keyword">if</span> (env(<span class="string">'UMI'</span>, <span class="keyword">false</span>)) &#123;</span><br><span class="line">            <span class="comment">//8000端口是我们本地 umi 的端口号</span></span><br><span class="line">            <span class="keyword">return</span> <span class="string">'//localhost:8000/'</span> . $path;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> \Illuminate\Support\Str::finish(asset(<span class="string">'vendor/umi/'</span>), <span class="string">'/'</span>) . $path;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">  <span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">  &lt;!DOCTYPE html&gt;</span><br><span class="line">  &lt;html lang=<span class="string">"en"</span>&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">      &lt;link rel=<span class="string">"manifest"</span> href=<span class="string">"&#123;&#123;Helper::myUmi('manifest.json')&#125;&#125;"</span>&gt;</span><br><span class="line">      &lt;link rel=<span class="string">"stylesheet"</span> href=<span class="string">"&#123;&#123;Helper::myUmi('umi.css')&#125;&#125;"</span>&gt;</span><br><span class="line">      &lt;meta charset=<span class="string">"UTF-8"</span>&gt;</span><br><span class="line">      &lt;meta http-equiv=<span class="string">"X-UA-Compatible"</span> content=<span class="string">"IE=edge"</span>&gt;</span><br><span class="line">      &lt;meta name=<span class="string">"viewport"</span> content=<span class="string">"width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0"</span>&gt;</span><br><span class="line">      &lt;title&gt;&#123;&#123;config(<span class="string">'store.title'</span>)&#125;&#125;&lt;/title&gt;</span><br><span class="line">      &lt;meta name=<span class="string">"csrf-token"</span> content=<span class="string">"&#123;&#123; csrf_token() &#125;&#125;"</span>&gt;</span><br><span class="line">      &lt;link rel=<span class="string">"icon"</span> href=<span class="string">"&#123;&#123;Helper::myUmi('favicon.png')&#125;&#125;"</span> type=<span class="string">"image/x-icon"</span>&gt;</span><br><span class="line">      &lt;script src=<span class="string">"https://gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.9.6/dist/data-set.min.js"</span>&gt;&lt;/script&gt;</span><br><span class="line">      &lt;script&gt;</span><br><span class="line">        window.routerBase = <span class="string">"/"</span>;</span><br><span class="line">        window.publicPath = <span class="string">"&#123;&#123;Helper::myUmi('')&#125;&#125;"</span>;</span><br><span class="line">        window.store = &#123;</span><br><span class="line">          title: <span class="string">"&#123;&#123;config('store.title')&#125;&#125;"</span>,</span><br><span class="line">          token: <span class="string">"&#123;&#123; csrf_token() &#125;&#125;"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &lt;/script&gt;</span><br><span class="line">      &lt;script async src=<span class="string">"&#123;&#123;Helper::myUmi('pwacompat.min.js')&#125;&#125;"</span>&gt;&lt;/script&gt;</span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">  &lt;noscript&gt;Sorry, we need js to run correctly!&lt;/noscript&gt;</span><br><span class="line">  &lt;div id=<span class="string">"root"</span>&gt;&lt;/div&gt;</span><br><span class="line">  &lt;script src=<span class="string">"&#123;&#123;Helper::myUmi('umi.js')&#125;&#125;"</span>&gt;&lt;/script&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">  &lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="修改-umi-的-package-json-文件"><a href="#修改-umi-的-package-json-文件" class="headerlink" title="修改 umi 的 package.json 文件"></a>修改 umi 的 package.json 文件</h4><p>  　　经过以上两步，当我们访问到 <a href="http://domain.com/View/um" target="_blank" rel="noopener">http://domain.com/View/um</a> 时可以看到 umi 的页面了。<br>  　　但是，页面会一直提示 Disconnect 不断刷新重连。</p>
+<p>  解决方法：修改 antd-admin 的 package.json 中的以下信息。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"start"</span>: <span class="string">"cross-env APP_TYPE=site PORT=8000 SOCKET_SERVER=none umi dev"</span>,</span><br><span class="line"><span class="string">"start:no-mock"</span>: <span class="string">"cross-env MOCK=none PORT=8000 SOCKET_SERVER=none umi dev"</span>,</span><br></pre></td></tr></table></figure></p>
+<p>  参考文档<a href="https://blog.csdn.net/violetjack0808/article/details/86577776" target="_blank" rel="noopener">https://blog.csdn.net/violetjack0808/article/details/86577776</a>;</p>
+<h4 id="修改-antd-admin-的-request-方法"><a href="#修改-antd-admin-的-request-方法" class="headerlink" title="修改 antd-admin 的 request 方法"></a>修改 antd-admin 的 request 方法</h4><p>  将 antd-amin/src/utils/request.ts 做如下修改<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> request = extend(&#123;</span><br><span class="line">  <span class="comment">//前缀</span></span><br><span class="line">  <span class="comment">//可以进行接口的版本控制</span></span><br><span class="line">  prefix: <span class="string">'/api/v1/'</span>,</span><br><span class="line">  <span class="comment">//设置header头</span></span><br><span class="line">  headers: &#123;</span><br><span class="line">    <span class="string">'X-CSRF-TOKEN'</span>: <span class="built_in">window</span>.store.token,</span><br><span class="line">  &#125;,</span><br><span class="line">  errorHandler, <span class="comment">// 默认错误处理</span></span><br><span class="line">  credentials: <span class="string">'include'</span>, <span class="comment">// 默认请求是否带上cookie</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<h4 id="修改-ant-admin-的登录验证"><a href="#修改-ant-admin-的登录验证" class="headerlink" title="修改 ant-admin 的登录验证"></a>修改 ant-admin 的登录验证</h4><p>  在 Laravel 中增加一个获取当前用户的接口/路由<br>  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Created by PhpStorm.</span></span><br><span class="line"><span class="comment">* User: 张大猛子呦 &lt;hetaoov<span class="doctag">@gmail</span>.com&gt;</span></span><br><span class="line"><span class="comment">* Date: 2019/12/5</span></span><br><span class="line"><span class="comment">* Time: 9:05 下午</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">App</span>\<span class="title">Admin</span>\<span class="title">Controllers</span>\<span class="title">api</span>\<span class="title">v1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">App</span>\<span class="title">Http</span>\<span class="title">Controllers</span>\<span class="title">Controller</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AuthController</span> <span class="keyword">extends</span> <span class="title">Controller</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">  <span class="comment">//用户登录</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">currentUser</span><span class="params">()</span></span>&#123;</span><br><span class="line">      $user = \Admin::user();</span><br><span class="line">      <span class="keyword">return</span> $user;</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>  antd-admin/src/layouts/SecurityLayout.tsx 做如下修改<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">render() &#123;</span><br><span class="line">   <span class="comment">//...code</span></span><br><span class="line">   <span class="keyword">const</span> isLogin = currentUser &amp;&amp; currentUser.id;</span><br><span class="line">   <span class="comment">//...code</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="完成"><a href="#完成" class="headerlink" title="完成"></a>完成</h3><p> 　　打开我们一开始 /view/umi 路由就可以看到 umi 的欢迎页面了<br><img src="https://s2.ax1x.com/2019/12/29/lK8VTx.jpg" alt="laravel-umi.jpg"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PHP/" rel="tag"># PHP</a>
+          
+            <a href="/tags/JS/" rel="tag"># JS</a>
+          
+            <a href="/tags/React/" rel="tag"># React</a>
+          
+            <a href="/tags/umi-js/" rel="tag"># umi.js</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/17/MySQL-selcet-默认值/" rel="next" title="MySQL selcet 默认值">
+                <i class="fa fa-chevron-left"></i> MySQL selcet 默认值
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/01/05/仿Vue-js实现数据绑定/" rel="prev" title="仿Vue.js实现数据绑定">
+                仿Vue.js实现数据绑定 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/myface.jpg" alt="张大猛子呦">
+            
+              <p class="site-author-name" itemprop="name">张大猛子呦</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/hetaoov" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:hetaoov@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/u/3923647634" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-globe"></i>Weibo</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装antd-admin"><span class="nav-number">1.</span> <span class="nav-text">安装antd-admin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在Laravel中配置umi"><span class="nav-number">2.</span> <span class="nav-text">在Laravel中配置umi</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在Laravel-中新建一个控制器"><span class="nav-number">2.0.1.</span> <span class="nav-text">在Laravel 中新建一个控制器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#视图模板文件中写入以下代码"><span class="nav-number">2.0.2.</span> <span class="nav-text">视图模板文件中写入以下代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改-umi-的-package-json-文件"><span class="nav-number">2.0.3.</span> <span class="nav-text">修改 umi 的 package.json 文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改-antd-admin-的-request-方法"><span class="nav-number">2.0.4.</span> <span class="nav-text">修改 antd-admin 的 request 方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改-ant-admin-的登录验证"><span class="nav-number">2.0.5.</span> <span class="nav-text">修改 ant-admin 的登录验证</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完成"><span class="nav-number">2.1.</span> <span class="nav-text">完成</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张大猛子呦</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
